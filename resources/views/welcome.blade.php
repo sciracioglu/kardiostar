@@ -8,9 +8,7 @@
 @endsection
 
 @section('icerik')
-<div class='row'>
     Ana Sayfa
-</div>
 @endsection
 
 @section('scripts')

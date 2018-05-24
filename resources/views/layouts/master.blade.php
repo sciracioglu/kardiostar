@@ -7,7 +7,7 @@
             <small class="text-muted">@yield('kucuk_baslik')</small>
         </h5>
     </div>
-    <div class="" id='app'>
+    <div class="p-2" id='app'>
     @yield('icerik')
     </div>
 
