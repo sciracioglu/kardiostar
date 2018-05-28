@@ -1,4 +1,4 @@
-@extends('layouts.header')
+@extends('layouts.login')
 @section('stil')
 <style>
     html,
@@ -18,7 +18,7 @@
         justify-content: center;
         padding-top: 40px;
         padding-bottom: 40px;
-        background-color: #f5f5f5;
+        background-color: #fff;
     }
 
     .form-signin {
@@ -56,13 +56,14 @@
     Giriş
 @endsection
 @section('icerik')
-    <form class="form-signin">
+    {!! Form::open(['url'=>'login', 'method'=>'post','class'=>"form-signin"]) !!}
+    <form  >
         <img src="/img/kardiostar.jpg" alt="Kardiostar" style="height:75px;" />
-        <h1 class="h3 mb-3 font-weight-normal">Lütfen Giriş Yapın</h1>
+        <h5 class="h5 mb-3 font-weight-normal">Lütfen Giriş Yapın</h5>
         <label for="user" class="sr-only">Kullanıcı Adı</label>
-        <input type="text" id="user" class="form-control" placeholder="Kullanıcı Adı" required autofocus>
+        <input type="text" id="user" name='kullanici' class="form-control" placeholder="Kullanıcı Adı" required autofocus>
         <label for="sifre" class="sr-only">Şifre</label>
-        <input type="password" id="sifre" class="form-control" placeholder="Şifre" required>
+        <input type="password" id="sifre" name='sifre' class="form-control" placeholder="Şifre" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Giriş</button>
-    </form>
+    {!! Form::close() !!}
 @endsection

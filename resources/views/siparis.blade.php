@@ -1,13 +1,14 @@
 @extends('layouts.master')
 
 @section('baslik')
-    Hede Hodo  Turizm Insaat Perakende Ithalat Ihracat Ltd. Sti.
+    {{ session('musteri.unvan') }}
 @endsection
 @section('kucuk_baslik')
     Sipariş
 @endsection
 
 @section('icerik')
+    <form @submit.prevent="kaydet" @keydown="form.errors.clear($event.target.name)">
     @include('ust_form')
     <nav aria-label="breadcrumb" v-if='satislar'>
         <button type="button" class="close text-danger" aria-label="Close">
@@ -26,54 +27,70 @@
     <div class='row'>
         <div class='col-12'>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" id='serino' v-model='form.serino' placeholder="Seri No" aria-label="Seri No" aria-describedby="basic-addon2">
+                <input type="text" class="form-control" id='serino' @blur='bilgiAl' v-model='form.serino' placeholder="Seri No" aria-label="Seri No">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
+                    <button class="btn btn-outline-secondary" type="button" @click='bilgiAl'><i class="fa fa-search"></i></button>
+                </div>
+                <small id="serino" class="form-text text-danger" v-if="form.errors.has('serino')">Bu alan bos birakilamaz</small>
+            </div>
+        </div>
+    </div>
+    <div class="row" v-if='mal_kodu'>
+        <div class='col-4 '>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-3"><strong><label for="malkod">Mal Kodu</label></strong></div>
+                    <div class="col-9"><input type='text' class='form-control-plaintext' id='malkod' v-model='mal_kodu' readonly /></div>
                 </div>
             </div>
         </div>
-        <div class='col-4 '>
+        <div class='col-4'>
             <div class="form-group">
-                <label for="malkod">Mal Kodu</label>
-                <input type='text' class='form-control-plaintext' id='malkod' v-model='mal_kodu' readonly />
+                <div class="row">
+                    <div class="col-3"><strong><label for="malkod">Mal Ad</label></strong></div>
+                    <div class="col-9"><input type='text' class='form-control-plaintext' id='malad' v-model='mal_adi' readonly /></div>
+                </div>
             </div>
         </div>
         <div class='col-4'>
             <div class="form-group">
-                <label for="malad">Mal Adı</label>
-                <input type='text' class='form-control-plaintext' id='malad' v-model='mal_adi' readonly />
+                <div class="row">
+                    <div class="col-3"><strong><label for="fiyat">Fiyat</label></strong></div>
+                    <div class="col-9"><input type='text' class='form-control-plaintext' id='fiyat' v-model='fiyat' readonly /></div>
+                </div>
             </div>
         </div>
         <div class='col-4'>
             <div class="form-group">
-                <label for="fiyat">Fiyat</label>
-                <input type='text' class='form-control-plaintext' id='fiyat' v-model='fiyat' readonly />
+                <div class="row">
+                    <div class="col-3"><strong><label for="ubb">UBB Kodu</label></strong></div>
+                    <div class="col-9"><input type='text' class='form-control-plaintext' id='ubb' v-model='ubb' readonly /></div>
+                </div>
             </div>
         </div>
         <div class='col-4'>
             <div class="form-group">
-                <label for="ubb">UBB Kodu</label>
-                <input type='text' class='form-control-plaintext' id='ubb' v-model='ubb' readonly />
+                <div class="row">
+                    <div class="col-3"><strong><label for="skt">S.K. Tarihi</label></strong></div>
+                    <div class="col-9"><input type='text' class='form-control-plaintext' id='skt' v-model='skt' readonly /></div>
+                </div>
             </div>
         </div>
         <div class='col-4'>
             <div class="form-group">
-                <label for="skt">S.K. Tarihi</label>
-                <input type='text' class='form-control-plaintext' id='skt' v-model='skt' readonly />
-            </div>
-        </div>
-        <div class='col-4'>
-            <div class="form-group">
-                <label for="lot">Lot No</label>
-                <input type='text' class='form-control-plaintext' v-model='lot_no' id='lot' readonly />
+                <div class="row">
+                    <div class="col-3"><strong><label for="lot">Lot No</label></strong></div>
+                    <div class="col-9"><input type='text' class='form-control-plaintext' v-model='lot_no' id='lot' readonly /></div>
+                </div>
             </div>
         </div>
     </div>
     <div class='row'>
         <div class='col'>
-            <button type="button" class="btn btn-sm btn-block btn-primary" @click='kaydet'>Kaydet</button>
+            <button type="submit" class="btn btn-sm btn-block btn-primary">Kaydet</button>
         </div>
     </div>
+</form>
 @endsection
 
 @section('scripts')
@@ -82,7 +99,7 @@
 var vue=new Vue({
     el:'#app',
     data:{
-        satislar:null,
+        satislar:[],
         satis_sekilleri:{!! $satis_sekilleri !!},
         hastaneler:{!! $hastahaneler !!},
         doktorlar:null,
@@ -92,6 +109,7 @@ var vue=new Vue({
         ubb:null,
         skt:null,
         lot_no:null,
+        evrak_baslik:{!! session()->has('evrak_baslik') ? session('evrak_baslik') : "null" !!},
         form : new Form({
                 satis_sekli:null,
                 hastane:null,
@@ -104,21 +122,22 @@ var vue=new Vue({
             }),
     },
     methods:{
-        kaydet(){
-            //this.form.post('/siparis');
-            this.satislar.push(this.form);
+        kaydet(){ 
+            self = this;
+            axios.post('/siparis',this.form);
+           
         },
         bilgiAl(){
             if(this.form.serino){
                 self = this;
-                axios.get('/siparis?'+this.form.serino)
+                axios.get('/siparis?serino='+this.form.serino)
                     .then(function(response){
-                        self.fiyat = response.fiyat;
-                        self.ubb = response.ubb;
-                        self.skt = response.skt;
-                        self.lot_no = response.lot_no;
-                        self.mal_kodu = response.mal_kodu;
-                        self.mal_adi = response.mal_adi;
+                        self.fiyat = response.data[0].FIYAT;
+                        self.ubb = response.data[0].BARKOD1;
+                        self.skt = response.data[0].SKT;
+                        self.lot_no = response.data[0].LOTNO;
+                        self.mal_kodu = response.data[0].MALKOD;
+                        self.mal_adi = response.data[0].MALAD;
                     });
             }
         },

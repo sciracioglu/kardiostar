@@ -2,13 +2,14 @@
 
 
 Route::get('login', 'LoginController@create');
-Route::post('login', 'LoginController@store');
+Route::post('login', 'LoginController@store')->middleware('throttle:60,5');
 Route::delete('logout', 'LoginController@destroy');
 
-Route::resource('siparis', 'SiparisController');
+Route::group(['middleware' => ['login']], function () {
+    Route::resource('siparis', 'SiparisController');
 
-Route::get('rapor', 'StokRaporController@index');
+    Route::get('rapor', 'StokRaporController@index');
 
-Route::get('/', function () {
-    return view('welcome');
+    Route::get('/', 'MusteriController@index');
+    Route::post('/', 'MusteriController@store');
 });

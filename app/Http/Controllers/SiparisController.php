@@ -11,9 +11,8 @@ class SiparisController extends Controller
 {
     public function index()
     {
-        if ($request->has('seri_no')) {
-            $bilgi = DB::select('exec [dbo].[ArgWebGetSeriNo] ?', [$request('serino')]);
-
+        if (request()->has('serino')) {
+            $bilgi = DB::select('exec [dbo].[ArgWebGetSeriNo] ?, ?', [session('musteri.hesapkod'), request('serino')]);
             return $bilgi;
         }
     }
@@ -22,13 +21,39 @@ class SiparisController extends Controller
     {
         $data['hastahaneler']    = Hastahaneler::all();
         $data['satis_sekilleri'] = SatisSekilleri::all();
-
+        $data['doktorlar']       =
+        session()->forget('evrak_baslik');
         return view('siparis', $data);
     }
 
     public function store(Request $request)
     {
-        dd($request->all());
+        $data = request()->validate([
+            'satis_sekli'   => 'required',
+            'hastane'       => 'required',
+            'hasta'         => 'required',
+            'serino'        => 'required'
+        ]);
+        if (!session()->has('evrak_baslik')) {
+            $evrak_baslik = DB::select('EXEC [dbo].[SpArgSipInsEvrBas] ?, ?, ?, ?, ?, ?, ?, ?, ? ', [
+                session('musteri.hesapkod'),
+                $data['satis_sekli'],
+                $data['hastane'],
+                request('doktor'),
+                $data['hasta'],
+                request('kimlikno'),
+                request('protokol'),
+                request('aciklama'),
+                session('username')
+                ]);
+            session()->put('evrak_baslik', $evrak_baslik[0]->EVRAKNO);
+        }
+
+        $kalem = DB::select('[dbo].[spArgSipInsStkHar] ?, ?, ?', [
+                        session('evrak_baslik'),
+                        $data['serino'],
+                        session('username')
+                    ]);
     }
 
     public function show($id)

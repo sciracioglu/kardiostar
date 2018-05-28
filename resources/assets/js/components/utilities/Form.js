@@ -35,9 +35,9 @@ class Form {
      * Reset the form fields.
      */
     reset() {
-        for (let field in this.originalData) {
-            this[field] = '';
-        }
+        // for (let field in this.originalData) {
+        //     this[field] = '';
+        // }
 
         this.errors.clear();
     }
@@ -113,7 +113,7 @@ class Form {
      */
     onSuccess(data) {
 
-        this.reset();
+       // this.reset();
     }
 
 

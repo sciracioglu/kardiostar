@@ -1,10 +1,10 @@
 @extends('layouts.master')
-
 @section('baslik')
-    Stok Durum Raporu
+    {{ session('musteri.unvan') }}
 @endsection
+
 @section('kucuk_baslik')
-    Raporlar
+    Stok Durum Raporu
 @endsection
 
 @section('icerik')
