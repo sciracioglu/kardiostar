@@ -46,6 +46,7 @@ class SiparisController extends Controller
                 request('aciklama'),
                 session('username')
                 ]);
+
             session()->put('evrak_baslik', $evrak_baslik[0]->EVRAKNO);
         }
 
@@ -54,21 +55,5 @@ class SiparisController extends Controller
                         $data['serino'],
                         session('username')
                     ]);
-    }
-
-    public function show($id)
-    {
-    }
-
-    public function edit($id)
-    {
-    }
-
-    public function update(Request $request, $id)
-    {
-    }
-
-    public function destroy($id)
-    {
     }
 }
