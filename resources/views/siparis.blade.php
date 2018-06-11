@@ -9,8 +9,8 @@
 
 @section('icerik')
     <form @submit.prevent="kaydet" @keydown="form.errors.clear($event.target.name)">
-    @include('ust_form')
-    <nav aria-label="breadcrumb" v-if='satislar'>
+        @include('ust_form')
+    <nav aria-label="breadcrumb" v-if='satislar.lenght > 0'>
         <button type="button" class="close text-danger" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -119,6 +119,7 @@ var vue=new Vue({
                 kimlikno:null,
                 protokol:null,
                 serino:null,
+                evrak_no:'{{ $evrak_no }}',
             }),
     },
     methods:{

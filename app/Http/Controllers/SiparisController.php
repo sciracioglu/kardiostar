@@ -21,8 +21,9 @@ class SiparisController extends Controller
     {
         $data['hastahaneler']    = Hastahaneler::all();
         $data['satis_sekilleri'] = SatisSekilleri::all();
-        $data['doktorlar']       =
-        session()->forget('evrak_baslik');
+        // $data['doktorlar']       =
+        $evrak_no         = DB::select('EXEC [dbo].[spArgSipGetEvrakNo]');
+        $data['evrak_no'] = $evrak_no[0]->EVRAKNO;
         return view('siparis', $data);
     }
 
@@ -32,28 +33,35 @@ class SiparisController extends Controller
             'satis_sekli'   => 'required',
             'hastane'       => 'required',
             'hasta'         => 'required',
-            'serino'        => 'required'
+            'serino'        => 'required',
+            'evrak_no'      => 'required'
         ]);
-        if (!session()->has('evrak_baslik')) {
-            $evrak_baslik = DB::select('EXEC [dbo].[SpArgSipInsEvrBas] ?, ?, ?, ?, ?, ?, ?, ?, ? ', [
-                session('musteri.hesapkod'),
-                $data['satis_sekli'],
-                $data['hastane'],
-                request('doktor'),
-                $data['hasta'],
-                request('kimlikno'),
-                request('protokol'),
-                request('aciklama'),
-                session('username')
-                ]);
+        $this->evrakBaslikKaydet($data);
+        $this->kalemKaydet($data);
+    }
 
-            session()->put('evrak_baslik', $evrak_baslik[0]->EVRAKNO);
-        }
+    private function evrakBaslikKaydet($data)
+    {
+        DB::insert('EXEC [dbo].[SpArgSipInsEvrBas] ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ', [
+            session('musteri.hesapkod'),
+            $data['satis_sekli'],
+            $data['hastane'],
+            (request()->has('doktor') && request('doktor') != null) ? request('doktor') : '',
+            $data['hasta'],
+            (request()->has('kimlikno') && request('kimlikno') != null) ? request('kimlikno') : '',
+            (request()->has('protokol') && request('protokol') != null) ? request('protokol') : '',
+            (request()->has('aciklama') && request('aciklama') != null) ? request('aciklama') : '',
+            session('username'),
+            $data['evrak_no']
+        ]);
+    }
 
-        $kalem = DB::select('[dbo].[spArgSipInsStkHar] ?, ?, ?', [
-                        session('evrak_baslik'),
-                        $data['serino'],
-                        session('username')
-                    ]);
+    private function kalemKaydet($data)
+    {
+        DB::select('EXEC [dbo].[spArgSipInsStkHar] ?, ?, ?', [
+            $data['evrak_no'],
+            $data['serino'],
+            session('username')
+        ]);
     }
 }
