@@ -12,31 +12,31 @@
         @include('ust_form')
         <div class="card border-warning"  v-if='satislar.length>0'>
             <div class="card-body">
-            <table class='table table-condenced'>
-                <thead>
-                    <tr>
-                        <th>SeriNo</th>
-                        <th>Mal Kod</th>
-                        <th>Mal Ad</th>
-                        <th>Fiyat</th>
-                        <th>UBB</th>
-                        <th>Lot No</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for='(satis,index) in satislar'>
-                        <td>@{{satis.SERINO}}</td>
-                        <td>@{{satis.MALKOD}}</td>
-                        <td>@{{satis.MALAD}}</td>
-                        <td>@{{satis.FIYAT}}</td>
-                        <td>@{{satis.UBB}}</td>
-                        <td>@{{satis.LOT}}</td>
-                        <td><span class="text-danger" style="cursor:pointer;" @click='sil(index, satis.KALEMSN)'><i class="fa fa-trash"></i></span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                <table class='table table-condenced'>
+                    <thead>
+                        <tr>
+                            <th>SeriNo</th>
+                            <th>Mal Kod</th>
+                            <th>Mal Ad</th>
+                            <th>Fiyat</th>
+                            <th>UBB</th>
+                            <th>Lot No</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for='(satis,index) in satislar'>
+                            <td>@{{satis.SERINO}}</td>
+                            <td>@{{satis.MALKOD}}</td>
+                            <td>@{{satis.MALAD}}</td>
+                            <td>@{{satis.FIYAT}}</td>
+                            <td>@{{satis.UBB}}</td>
+                            <td>@{{satis.LOT}}</td>
+                            <td><span class="text-danger" style="cursor:pointer;" @click='sil(index, satis.KALEMSN)'><i class="fa fa-trash"></i></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     <div class='row'>
         <div class='col-12'>
