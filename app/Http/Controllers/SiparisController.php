@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Hastahaneler;
 use App\SatisSekilleri;
 use Illuminate\Support\Facades\DB;
+use App\Hareket;
 
 class SiparisController extends Controller
 {
@@ -36,8 +37,14 @@ class SiparisController extends Controller
             'serino'        => 'required',
             'evrak_no'      => 'required'
         ]);
+
         $this->evrakBaslikKaydet($data);
         $this->kalemKaydet($data);
+    }
+
+    public function show($evrak_no)
+    {
+        return DB::select('SELECT KALEMSN,EVRAKNO,MALKOD,(SELECT MALAD FROM STKKRT WHERE MALKOD= STKHAR.MALKOD) AS MALAD,SERINO,SERINO2 AS LOT,TARIH2 AS SKT,FIYAT,(SELECT BARKOD1 FROM STKKRT WHERE MALKOD= STKHAR.MALKOD) AS UBB FROM STKHAR WHERE EVRAKNO = ?', [$evrak_no]);
     }
 
     private function evrakBaslikKaydet($data)
@@ -58,10 +65,22 @@ class SiparisController extends Controller
 
     private function kalemKaydet($data)
     {
-        DB::select('EXEC [dbo].[spArgSipInsStkHar] ?, ?, ?', [
+        DB::connection('sqlsrv')->statement('SET ANSI_NULLS, QUOTED_IDENTIFIER, CONCAT_NULL_YIELDS_NULL, ANSI_WARNINGS, ANSI_PADDING ON');
+        DB::connection('sqlsrv')->insert('EXEC [dbo].[spArgSipInsStkHar] ?, ?, ?, ?, ?, ?, ?, ?', [
             $data['evrak_no'],
             $data['serino'],
-            session('username')
+            session('username'),
+            request('serino2'),
+            request('skt'),
+            request('ubb'),
+            request('tarihi'),
+            request('depokod')
         ]);
+    }
+
+    public function destroy($kalem)
+    {
+        DB::connection('sqlsrv')->statement('SET ANSI_NULLS, QUOTED_IDENTIFIER, CONCAT_NULL_YIELDS_NULL, ANSI_WARNINGS, ANSI_PADDING ON');
+        Hareket::where('KALEMSN', $kalem)->delete();
     }
 }
