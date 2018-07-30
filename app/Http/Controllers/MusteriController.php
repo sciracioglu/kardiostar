@@ -37,7 +37,7 @@ class MusteriController extends Controller
      /**
      * @return \Illuminate\View\View
      */
-    public function cari(Request $request)
+    public function cari()
     {
 
 
