@@ -9,9 +9,9 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-
+dd($geciken)
             @if(count($geciken)>0)
-
+            dd($geciken)
                 <table class="table table-stripped table-condensed table-hover">
                     <thead>
                     <tr>
