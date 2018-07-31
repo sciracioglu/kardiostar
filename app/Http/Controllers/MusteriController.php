@@ -160,5 +160,14 @@ class MusteriController extends Controller
         return view('satis_analiz_miktar', compact('yillar', 'analiz'));
     }
 
+    public function cekSenet()
+    {
+        $cekSenet = DB::select("EXEC [dbo].[spArgWebGetCekSenet2] ?", [session('musteri.hesapkod')]);
+        foreach($cekSenet as $cek){
+            $detay[$cek->ISLEMTIPI] = DB::select("EXEC [dbo].[spArgWebGetCekSenet_Hrk] ?, ?", [session('musteri.hesapkod'), $cek->ISLEMTIPI]);
+        }
 
+        return view('cek_senet', compact('cekSenet', 'detay'));
+
+    }
 }
