@@ -17,5 +17,6 @@ Route::get('detay','MusteriController@bakiye_detay');
 Route::get('geciken','MusteriController@geciken_bakiye');
 Route::get('satis','MusteriController@satis');
 Route::get('ceksenet','MusteriController@cekSenet');
+Route::get('satis_analiz','MusteriController@satis_analiz');
 Route::get('satis_analiz_miktar','MusteriController@satis_analiz_miktar');
 });
