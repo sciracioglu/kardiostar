@@ -2,8 +2,11 @@
 
 
 @section('baslik')
+    {{ session('musteri.unvan') }}
+@endsection
+@section('kucuk_baslik')
     Çek Senet Bilgileri
-@stop
+@endsection
 
 
 @section('icerik')

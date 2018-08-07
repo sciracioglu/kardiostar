@@ -1,8 +1,11 @@
 @extends('layouts.master')
 
 @section('baslik')
+    {{ session('musteri.unvan') }}
+@endsection
+@section('kucuk_baslik')
     Cari Ekstre
-@stop
+@endsection
 
 
 @section('icerik')

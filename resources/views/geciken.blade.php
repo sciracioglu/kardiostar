@@ -2,6 +2,9 @@
 
 
 @section('baslik')
+    {{ session('musteri.unvan') }}
+@endsection
+@section('kucuk_baslik')
   Geciken Bakiye Bilgileri
 @stop
 

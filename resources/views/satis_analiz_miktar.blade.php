@@ -1,7 +1,9 @@
 @extends('layouts.master')
 
 @section('baslik')
-
+    {{ session('musteri.unvan') }}
+@endsection
+@section('kucuk_baslik')
     Satış Analiz Raporu Miktar
 @stop
 
