@@ -1,16 +1,14 @@
 @extends('layouts.master')
 
-@section('title')
+@section('baslik')
     Cari Ekstre
 @stop
 
 
-@section('content')
+@section('icerik')
     <div class="row">
         <div class="col-md-12">
-        @php(dd($cari))
-        
-            @if($cari->count()>0)
+            @if(count($cari)>0)
 
                 <table class="table table-stripped table-condensed table-hover">
                     <thead>
@@ -20,17 +18,9 @@
                         <th>Vade Tarihi</th>
                         <th>Evrak No</th>
                         <th>Açıklama</th>
-                        {{--<th>Döviz Cinsi</th>--}}
-                        {{--<th>Döviz Kuru</th>--}}
-
                         <th>Borç</th>
                         <th>Alacak</th>
                         <th>Bakiye</th>
-
-                        {{--<th>Döviz Borc</th>--}}
-                        {{--<th>Döviz Alacak</th>--}}
-                        {{--<th>Döviz Bakiye</th>--}}
-
                     </tr>
                     </thead>
                     <tbody>
