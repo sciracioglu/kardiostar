@@ -8,7 +8,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            @if(count($cari)>0)
+            @if($cari->count()>0)
 
                 <table class="table table-stripped table-condensed table-hover">
                     <thead>
