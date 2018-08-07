@@ -32,7 +32,7 @@ class CariController extends Controller
     public function store()
     {
         if (request()->has('email')) {
-            Mail::to(request('email'))->send(new CariFormGonder($cari));
+            Mail::to(request('email'))->send(new CariFormGonder($this->cari));
         }
     }
 }
