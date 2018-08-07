@@ -13,7 +13,7 @@
         {!! Form::open(['url'=>'/', 'method'=>'post']) !!}
         <div class="form-group">
             {!! Form::label('musteri','Müşteriler') !!}
-            {!! Form::select('musteri',[''=>'Seçin...']+$liste,'',['class'=>'select form-control','required']) !!}
+            {!! Form::select('musteri',[''=>'Seçin...']+$liste,'',['id'=>'musteri', 'class'=>'select form-control','required']) !!}
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block">
@@ -26,5 +26,7 @@
 @endsection
 
 @section('scripts')
-
+<script > 
+$('#musteri').select2();
+</script>
 @endsection

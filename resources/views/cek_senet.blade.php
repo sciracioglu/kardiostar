@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
 
-@section('title')
+@section('baslik')
     Çek Senet Bilgileri
 @stop
 
 
-@section('content')
+@section('icerik')
     <div class="row">
         <div class="col-md-12">
             @if(count($cekSenet)>0)
