@@ -26,7 +26,7 @@ class CariController extends Controller
     {
         $cari = $this->cari;
 
-        return view('cari', compact('cari', 'format'));
+        return view('cari', compact('cari'));
     }
 
     public function store()
