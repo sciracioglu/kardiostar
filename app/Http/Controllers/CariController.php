@@ -34,5 +34,7 @@ class CariController extends Controller
         if (request()->has('email')) {
             Mail::to(request('email'))->send(new CariFormGonder($this->cari));
         }
+
+        return back();
     }
 }
