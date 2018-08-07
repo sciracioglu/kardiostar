@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
-@section('title')
+@section('baslik')
 
     Satış Raporu
 @stop
 
 
-@section('content')
+@section('icerik')
     <div class="row">
         @if(count($grup)>0)
         <p>Detay hareketleri görmek için satırlara tıklayabilirsiniz.</p>

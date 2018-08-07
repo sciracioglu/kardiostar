@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
-@section('title')
+@section('baslik')
 
     Satış Analiz Raporu Miktar
 @stop
 
 
-@section('content')
+@section('icerik')
     <div class="row">
         @if(count($yillar)>0)
             <p>Detay hareketleri görmek için satırlara tıklayabilirsiniz.</p>

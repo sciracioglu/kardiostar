@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
 
-@section('title')
+@section('baslik')
   Bakiye Detay Bilgileri
 @stop
 
 
-@section('content')
+@section('icerik')
     <div class="row">
         <div class="col-md-12">
 
