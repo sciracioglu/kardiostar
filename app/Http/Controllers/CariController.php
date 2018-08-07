@@ -12,7 +12,11 @@ class CariController extends Controller
 
     public function __construct()
     {
-        $this->cari =   DB::select('EXEC [dbo].[spArgWebCariEkstre] ?', [session('musteri.hesapkod')]);
+        $this->middleware(function ($request, $next) {
+            $this->cari =   DB::select('EXEC [dbo].[spArgWebCariEkstre] ?', [session('musteri.hesapkod')]);
+
+            return $next($request);
+        });
     }
 
     /**
