@@ -8,6 +8,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+        @php(dd($cari))
+        
             @if($cari->count()>0)
 
                 <table class="table table-stripped table-condensed table-hover">
