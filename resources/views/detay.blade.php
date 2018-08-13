@@ -17,7 +17,7 @@ Bakiye Detay Bilgileri
     </div>
     <div class="row">
         <div class="col-md-12">
-            <form method="POST" action="/bakiye_detay">
+            <form method="POST" action="/detay">
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label for="email">E-posta adresi</label>
